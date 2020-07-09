@@ -15,3 +15,7 @@ Custom Component necessari:
 Consente di definire 3 fasce con relativo settaggio della temperatura e velocità della ventilazione. La modalità di funzionamento (freddo, caldo, deumidificatore ecc) è invece unica per tutte le fasce orarie.
 
 L'integrazinoe si basa su SmartIr e Broadlink. Potete trovare la lista dei condici dei condizionatori a questo link https://github.com/smartHomeHub/SmartIR/blob/master/docs/CLIMATE.md 
+
+
+# Importante
+Sia nel package che nella card, tutto quello che dovete "personalizzare" è indicato con delle "XXXX"
