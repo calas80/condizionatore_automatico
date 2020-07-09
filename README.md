@@ -1,2 +1,3 @@
-# condizionatore_automatico
+# Condizionatore Automatico
 Gestione automatica del condizionatore
+
