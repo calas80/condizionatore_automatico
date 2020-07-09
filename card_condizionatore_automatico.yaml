@@ -1,0 +1,126 @@
+- type: vertical-stack
+  cards:
+    - type: vertical-stack #Termostato - Automazioni
+      cards:
+        - type: custom:vertical-stack-in-card
+          cards:
+            - type: "custom:button-card"
+              name: Hisense
+              style:
+                - background-color: rgb(28, 128, 199)
+                - color: white
+              styles:
+                card:
+                  - background: none
+
+            - type: custom:fold-entity-row
+              head: input_boolean.condizionatore_automatico
+              items:
+                - type: custom:fold-entity-row # Orario
+                  head:
+                    type: section
+                    label: Impostazioni Orario e Temperatura
+                  open: true
+                  entities:
+                      - entity: input_boolean.fascia_1
+                        type: custom:multiple-entity-row
+                        name: Fascia 1
+                        state_color: true
+                        toggle: true
+                        entities:
+                          - entity: input_datetime.start_1_condizionatore
+                            name: Inizio
+                          - entity: input_datetime.stop_1_condizionatore
+                            name: Fine
+                          - entity: input_number.temp_fascia_1
+                            name: Temperatura
+
+                      - entity: input_boolean.fascia_2
+                        type: custom:multiple-entity-row
+                        name: "Fascia 2"
+                        state_color: true
+                        toggle: true
+                        entities:
+                          - entity: input_datetime.start_2_condizionatore
+                            name: Inizio
+                          - entity: input_datetime.stop_2_condizionatore
+                            name: Fine
+                          - entity: input_number.temp_fascia_2
+                            name: Temperatura
+
+                      - entity: input_boolean.fascia_3
+                        type: custom:multiple-entity-row
+                        name: Fascia 3
+                        state_color: true
+                        toggle: true
+                        entities:
+                          - entity: input_datetime.start_3_condizionatore
+                            name: Inizio
+                          - entity: input_datetime.stop_3_condizionatore
+                            name: Fine
+                          - entity: input_number.temp_fascia_3
+                            name: Temperatura
+
+
+                - type: custom:fold-entity-row # Modalitaà
+                  head:
+                    type: section
+                    label: " "
+                  open: true
+                  entities:
+                      - entity: input_select.mode_condizionatore
+                        type: custom:multiple-entity-row
+                        state_header: Modo
+                        name: Modalità
+                        toggle: false
+                        entities:
+                          - entity: input_select.fan_f1
+                            name: Fan F1
+                          - entity: input_select.fan_f2
+                            name: Fan F2
+                          - entity: input_select.fan_f3
+
+                - type: custom:fold-entity-row # Modalitaà
+                  head:
+                    type: section
+                    label: " "
+                  open: true
+                  entities:
+                      - entity: input_boolean.condizionatore_spegnimento_automatico
+                        type: custom:multiple-entity-row
+                        name: Spegnimento automatico
+                        toggle: true
+                        state_color: true
+                        entities:
+                          - entity: input_datetime.condizionatore_spegnimento_automatico
+                            name: false
+                - type: section
+
+            - type: thermostat
+              entity: climate.XXXXXX
+              name: Hisense
+              style: |
+                ha-card {background-color: transparent;}
+
+            - type: vertical-stack
+              cards:
+                - type: custom:mini-graph-card
+                  entities:
+                    - entity: sensor.temperatura_XXXXX
+                      name: Temperatura
+                    - entity: sensor.humidity_XXXXXX
+                      name: Umidità
+                  hour24: true
+                  hours_to_show: 24
+                  points_per_hour: 0.60
+                  hour24: true
+                  smoothing: false
+                  animate: true
+                  align_state: center
+                  show:
+                    extrema: true
+                    fill: fade
+                    name: false
+                    icon: false
+                  style: |
+                    ha-card {background-color: transparent;}
