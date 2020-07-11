@@ -304,7 +304,7 @@ automation:
         entity_id: input_boolean.condizionatore_spegnimento_automatico
         state: 'on'
       - condition: template
-        value_template: "{{ states('climate.XXXXXX') != "off"}}"
+        value_template: "{{ states('climate.XXXXXX') != 'off'}}"
     action:
       - service: climate.turn_off
         data:
