@@ -1,7 +1,7 @@
 # Condizionatore Automatico
 Gestione automatica del condizionatore
 
-<img src="https://github.com/calas80/condizionatore_automatico/blob/master/anteprima.jpg" alt="Anteprima">
+<img src="https://github.com/calas80/condizionatore_automatico/blob/master/Anteprima.jpg" alt="Anteprima">
 
 # Prerequisiti
 Custom Component necessari:
