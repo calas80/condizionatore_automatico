@@ -1,3 +1,80 @@
+homeassistant:
+  customize:
+    package.node_anchors:
+      customize: &customize
+        package: 'Controllo Condizionatori'
+        version: 'v2.1'
+        author: 'Calas'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+  ################################################
+  ## input_boolean Customize
+  ################################################
+    input_datetime.condizionatore_spegnimento_automatico:
+      <<: *customize
+    input_datetime.start_1_condizionatore:
+      <<: *customize
+    input_datetime.start_2_condizionatore:
+      <<: *customize
+    input_datetime.start_3_condizionatore:
+      <<: *customize
+    input_datetime.start_4_condizionatore:
+      <<: *customize
+    input_datetime.stop_1_condizionatore:
+      <<: *customize
+    input_datetime.stop_2_condizionatore:
+      <<: *customize
+    input_datetime.stop_3_condizionatore:
+      <<: *customize
+    input_datetime.stop_4_condizionatore:
+      <<: *customize
+
+  ################################################
+  ## input_number Customize
+  ################################################
+    input_number.temp_fascia_1:
+      <<: *customize
+    input_number.temp_fascia_2:
+      <<: *customize
+    input_number.temp_fascia_3:
+      <<: *customize
+    input_number.temp_fascia_4:
+      <<: *customize
+  ################################################
+  ## input_boolean Customize
+  ################################################
+    input_select.fan_f1:
+      <<: *customize
+    input_select.fan_f2:
+      <<: *customize
+    input_select.fan_f3:
+      <<: *customize
+    input_select.mode_condizionatore:
+      <<: *customize
+
+  ################################################
+  ## input_boolean Customize
+  ################################################
+    input_boolean.condizionatore_automatico:
+      <<: *customize
+    input_boolean.condizionatore_spegnimento_automatico:
+      <<: *customize
+    input_boolean.fascia_1:
+      <<: *customize
+    input_boolean.fascia_2:
+      <<: *customize
+    input_boolean.fascia_3:
+      <<: *customize
+
+  ################################################
+  ## input_number Customize
+  ################################################
+    input_number.auto_set_temperatura:
+      description: aaaa
 ################################################################################
 ##                  Integrazione
 ################################################
@@ -5,9 +82,9 @@
 climate:
   - platform: smartir
     name: XXXXX
-    device_code: XXXX
-    controller_data: XXX.XXX.XXX.XXX
-    temperature_sensor: sensor.temperatura_XXXXXXXX
+    device_code: XXXXX
+    controller_data: remote.XXXXX
+    temperature_sensor: sensor.temperatura_XXXXXXX
     humidity_sensor: sensor.humidity_XXXXXXXXX
 #    power_sensor: binary_sensor.stato_accensione
 
@@ -96,6 +173,38 @@ input_number:
     step: 1
     unit_of_measurement: 'C°'
 
+  auto_start_temp:
+    name: Temperatura di accensione automatica
+    icon: mdi:temperature-celsius
+    min: 16
+    max: 30
+    step: 0.1
+    unit_of_measurement: 'C°'
+
+  auto_off_temp:
+    name: Temperatura di spegnimeto automatico
+    icon: mdi:temperature-celsius
+    min: 16
+    max: 30
+    step: 0.1
+    unit_of_measurement: 'C°'
+
+  auto_set_temperatura:
+    name: Set Temperatura
+    icon: mdi:temperature-celsius
+    min: 16
+    max: 30
+    step: 1
+    unit_of_measurement: 'C°'
+
+  auto_set_umidita:
+    name: Umidità
+    icon: mdi:water-percent
+    min: 45
+    max: 80
+    step: 1
+    unit_of_measurement: '%'
+
 ################################################################################
 ##                  input_Select
 ################################################
@@ -147,8 +256,6 @@ input_select:
       - dry
     initial: 'off'
 
-
-
 ################################################################################
 ##                  input_boolean
 ################################################
@@ -182,15 +289,15 @@ script:
     sequence:
       - service: climate.set_temperature
         data_template:
-          entity_id: climate.XXXXXX
+          entity_id: climate.XXXXX
           temperature: "{{states.input_number.temp_fascia_1.state | int }}"
       - service: climate.set_fan_mode
         data_template:
-          entity_id: climate.XXXXXX
+          entity_id: climate.XXXXX
           fan_mode: "{{states.input_select.fan_f1.state }}"
       - service: climate.set_hvac_mode
         data_template:
-          entity_id: climate.XXXXXX
+          entity_id: climate.XXXXX
           hvac_mode: "{{states.input_select.mode_condizionatore.state }}"
 
   set_temperatura_condizionatore_f2:
@@ -198,15 +305,15 @@ script:
     sequence:
       - service: climate.set_temperature
         data_template:
-          entity_id: climate.XXXXXX
+          entity_id: climate.XXXXX
           temperature: "{{states.input_number.temp_fascia_2.state | int }}"
       - service: climate.set_fan_mode
         data_template:
-          entity_id: climate.XXXXXX
+          entity_id: climate.XXXXX
           fan_mode: "{{states.input_select.fan_f2.state }}"
       - service: climate.set_hvac_mode
         data_template:
-          entity_id: climate.XXXXXX
+          entity_id: climate.XXXXX
           hvac_mode: "{{states.input_select.mode_condizionatore.state }}"
 
   set_temperatura_condizionatore_f3:
@@ -214,28 +321,26 @@ script:
     sequence:
       - service: climate.set_temperature
         data_template:
-          entity_id: climate.XXXXXX
+          entity_id: climate.XXXXX
           temperature: "{{states.input_number.temp_fascia_3.state | int }}"
       - service: climate.set_fan_mode
         data_template:
-          entity_id: climate.XXXXXX
+          entity_id: climate.XXXXX
           fan_mode: "{{states.input_select.fan_f3.state }}"
       - service: climate.set_hvac_mode
         data_template:
-          entity_id: climate.XXXXXX
+          entity_id: climate.XXXXX
           hvac_mode: "{{states.input_select.mode_condizionatore.state }}"
-
-
 
 ################################################################################
 ##                  Automations
 ################################################
 automation:
   - alias: Condizionatore automatico ON F1
-    initial_state: true
+    initial_state: false
     trigger:
       - platform: template
-        value_template: "{{ states('sensor.temperatura_XXXXXXXX') > (states.input_number.temp_fascia_1.state) }}"
+        value_template: "{{ states('sensor.temperatura_camera_da_letto') > (states.input_number.temp_fascia_1.state) }}"
     condition:
       - condition: state
         entity_id: input_boolean.condizionatore_automatico
@@ -246,17 +351,16 @@ automation:
     action:
       - service: climate.turn_on
         data:
-          entity_id: climate.XXXXXX
+          entity_id: climate.XXXXX
       - service: script.turn_on
         data:
           entity_id: script.set_temperatura_condizionatore_f1
 
-
   - alias: Condizionatore automatico ON F2
-    initial_state: true
+    initial_state: false
     trigger:
       - platform: template
-        value_template: "{{ states('sensor.temperatura_XXXXXXXX') > (states.input_number.temp_fascia_2.state) }}"
+        value_template: "{{ states('sensor.temperatura_camera_da_letto') > (states.input_number.temp_fascia_2.state) }}"
     condition:
       - condition: state
         entity_id: input_boolean.condizionatore_automatico
@@ -267,17 +371,16 @@ automation:
     action:
       - service: climate.turn_on
         data:
-          entity_id: climate.XXXXXX
+          entity_id: climate.XXXXX
       - service: script.turn_on
         data:
           entity_id: script.set_temperatura_condizionatore_f2
 
-
   - alias: Condizionatore automatico ON F3
-    initial_state: true
+    initial_state: false
     trigger:
       - platform: template
-        value_template: "{{ states('sensor.temperatura_XXXXXXXX') > (states.input_number.temp_fascia_3.state) }}"
+        value_template: "{{ states('sensor.temperatura_camera_da_letto') > (states.input_number.temp_fascia_3.state) }}"
     condition:
       - condition: state
         entity_id: input_boolean.condizionatore_automatico
@@ -288,24 +391,64 @@ automation:
     action:
       - service: climate.turn_on
         data:
-          entity_id: climate.XXXXXX
+          entity_id: climate.XXXXX
       - service: script.turn_on
         data:
           entity_id: script.set_temperatura_condizionatore_f3
 
-
   - alias: Spegnimento Automatico Condizionatore
-    initial_state: true
+    initial_state: false
     trigger:
       - platform: template
-        value_template: "{{ states('sensor.time') == (states.input_datetime.condizionatore_spegnimento_automatico.state | int | timestamp_custom('%H:%M', False)) }}"
+        value_template: "{{ states('sensor.time') == (states.input_datetime.condizionatore_spegnimento_automatico.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
     condition:
       - condition: state
         entity_id: input_boolean.condizionatore_spegnimento_automatico
         state: 'on'
       - condition: template
-        value_template: "{{ states('climate.XXXXXX') != 'off'}}"
+        value_template: "{{ states('climate.XXXXX') != 'off'}}"
     action:
       - service: climate.turn_off
         data:
-          entity_id: climate.XXXXXX
+          entity_id: climate.XXXXX
+
+  - alias: Condizionatore automatico ON temp
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.temperatura_camera_da_letto') > states('input_number.auto_start_temp')}}"
+    condition:
+      - condition: state
+        entity_id: input_boolean.condizionatore_automatico
+        state: 'on'
+      - condition: template
+        value_template: "{{ states('sensor.umidita_camera_da_letto') > states('input_number.auto_set_umidita')}}"
+    mode: restart
+    action:
+      - service: climate.turn_on
+        data:
+          entity_id: climate.XXXXX
+      - service: climate.set_fan_mode
+        data:
+          entity_id: climate.XXXXX
+          fan_mode: low
+
+  - alias: Condizionatore automatico OFF temp
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.temperatura_camera_da_letto') < states('input_number.auto_off_temp')}}"
+    condition:
+      - condition: state
+        entity_id: input_boolean.condizionatore_automatico
+        state: 'on'
+    action:
+      - service: climate.turn_off
+        data:
+          entity_id: climate.XXXXX
+
+  - alias: "Disattivazione automazione condizionatore"
+    trigger:
+      - platform: time
+        at: '08:00:00'
+    action:
+       - service: input_boolean.turn_off
+         entity_id: input_boolean.condizionatore_automatico
