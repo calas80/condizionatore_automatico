@@ -1,5 +1,5 @@
-- type: vertical-stack
-  cards:
+type: vertical-stack
+cards:
     - type: vertical-stack #Termostato - Automazioni
       cards:
         - type: custom:vertical-stack-in-card
